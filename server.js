@@ -1,7 +1,7 @@
 import config from "./config";
-
-const http = require("http");
-const app = require("./app");
+import http from 'http';
+// const app = require("./app");
+import app from './app';
 
 const port = config.port;
 
