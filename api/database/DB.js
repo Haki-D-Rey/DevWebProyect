@@ -1,5 +1,5 @@
-import config from "../../config";
-import * as mysql from 'mysql'
+import config from '../../config';
+import * as mysql from 'mysql';
 // const mysql = require("mysql");
 
 const conexion = mysql.createConnection({

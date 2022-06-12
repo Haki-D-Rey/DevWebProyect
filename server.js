@@ -1,4 +1,4 @@
-import config from "./config";
+import config from './config';
 import http from 'http';
 // const app = require("./app");
 import app from './app';

@@ -1,16 +1,17 @@
-import jwt from "jsonwebtoken";
-import { promisify } from "util";
-import bcrypt from "bcryptjs/dist/bcrypt";
+import jwt from 'jsonwebtoken';
+import { promisify } from 'util';
+import bcrypt from 'bcryptjs/dist/bcrypt';
 import mysql from '../database/DB';
 
-//Peticion para Registranos
-export const registro = async (req, res) => {
+export const login = async (req, res) => {
   const objetoRegistro = {
     userName: req.body.userName,
     password: req.body.password,
   };
-  mysql.query("SELECT * FROM Usuario WHERE userName=? AND clave=?", [objetoRegistro.userName, objetoRegistro.password],
-    (err, rows, fields) => {
+  mysql.query(
+    'SELECT * FROM Usuario WHERE userName=? AND clave=?',
+    [objetoRegistro.userName, objetoRegistro.password],
+    (err, rows) => {
       if (err) {
         res.json('Usuario o clave incorrectos');
         throw new Error(`error ${err}`);
@@ -18,5 +19,6 @@ export const registro = async (req, res) => {
       const data = JSON.stringify(rows[0]);
       const TOKEN = jwt.sign(data, 'stil');
       res.json({ TOKEN });
-    });
+    }
+  );
 };

@@ -1,11 +1,11 @@
-import express from "express";
-import cookieParser from "cookie-parser";
-import { route } from "./api/route/router";
+import express from 'express';
+import cookieParser from 'cookie-parser';
+import { route } from './api/route/router';
 
 const app = express();
 
 // setaeamos el motor de plantilla
-app.set("view engine", "ejs");
+app.set('view engine', 'ejs');
 
 // setamos la carptea publica para fornt end
 //app.use(express.static("public"));
@@ -17,6 +17,6 @@ app.use(express.urlencoded({ extended: false }));
 //app.use(cookieParser)
 
 //Llamar al Router
-app.use("/", route);
+app.use('/', route);
 
-export default app
+export default app;

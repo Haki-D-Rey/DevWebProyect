@@ -1,16 +1,15 @@
 //definiremos las rutas de las vistas como la de nuestros controllers
-import { Router } from "express";
-import { registro } from '../controllers/authController'
+import { Router } from 'express';
+import verifyToken from '../middleware/token';
+import { login } from '../controllers/authController';
 export const route = Router();
-// const authoController = require("../controllers/authController");
-
-route.get("/", (req, res) => {
-  res.render("index");
-});
-
-route.get("/login", (req, res) => {
-  res.render("login");
+route.get('/', (req, res) => {
+  res.render('index');
 });
 
 //router para los metodos de  los controller
-route.get("/registro", registro);
+route.get('/login', login);
+
+route.get('/productos', verifyToken, (req, res) => {
+  res.json('hayro es imbecil')
+})
