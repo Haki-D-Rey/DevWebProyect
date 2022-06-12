@@ -9,6 +9,7 @@
     "serve": "nodemon server.js --exec babel-node",
     "start": "node server.js --exec babel-node"
   },
+  "type": "module",
   "keywords": [],
   "author": "",
   "license": "ISC",
