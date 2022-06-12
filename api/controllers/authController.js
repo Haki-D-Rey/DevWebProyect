@@ -1,7 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { promisify } from 'util';
-import bcrypt from 'bcryptjs/dist/bcrypt';
-import mysql from '../database/DB';
+import mysql from '../database/DB.js';
 
 export const login = async (req, res) => {
   const objetoRegistro = {

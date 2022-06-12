@@ -1,4 +1,4 @@
-import config from '../../config';
+import config from '../../config.js';
 import * as mysql from 'mysql';
 // const mysql = require("mysql");
 
@@ -7,7 +7,7 @@ const conexion = mysql.createConnection({
   user: config.DB_USER,
   password: config.DB_PASS,
   database: config.DB_DATABASE,
-  port: +config.DB_PORT,
+  port: config.DB_PORT ? +config.DB_PORT: undefined,
   //insecureAuth: false,
 });
 conexion.connect((error) => {
