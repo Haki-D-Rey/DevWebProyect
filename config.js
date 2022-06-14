@@ -8,4 +8,5 @@ export default {
   DB_PASS: process.env.DB_PASS,
   DB_DATABASE: process.env.DB_DATABASE,
   DB_PORT: process.env.DB_PORT,
+  SALT: process.env.SALT,
 };

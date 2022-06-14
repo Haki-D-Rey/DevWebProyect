@@ -1,14 +1,12 @@
 import config from '../../config.js';
 import * as mysql from 'mysql';
-// const mysql = require("mysql");
 
 const conexion = mysql.createConnection({
   host: config.DB_HOST,
   user: config.DB_USER,
   password: config.DB_PASS,
   database: config.DB_DATABASE,
-  port: config.DB_PORT ? +config.DB_PORT: undefined,
-  //insecureAuth: false,
+  port: config.DB_PORT ? +config.DB_PORT : undefined,
 });
 conexion.connect((error) => {
   if (error) throw error;
@@ -16,8 +14,3 @@ conexion.connect((error) => {
 });
 
 export default conexion;
-// module.exports = conexion;
-
-//Sin da error"'Client does not support authentication protocol requested by server; consider upgrading MySQL client',
-//ejecutar esta consulta en workbench"
-//ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';

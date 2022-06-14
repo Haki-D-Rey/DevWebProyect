@@ -5,7 +5,6 @@ function verifyToken(req, res, next) {
   const TOKEN = req.headers.authorization?.substr(7);
   if (!TOKEN) {
     res.status(401).json('Sin autorización');
-
   }
   req.data = jwt.verify(TOKEN, 'stil');
   next();
