@@ -8,7 +8,7 @@ const queryPromise = util.promisify(mysql.query).bind(mysql);
 
 export const iniciarSesion = async (req, res) => {
   try {
-    const { nombreUsuario, contrasenia, estaActivo = 1 } = req.body;
+    const { nombreUsuario, contrasenia, estaActivo = 1 } = req.query;
     const obtenerUsuario =
       'SELECT * FROM Usuario WHERE nombreUsuario=? AND EstaActivo=?';
     const [row] = await queryPromise(obtenerUsuario, [
@@ -41,6 +41,11 @@ export const registrarUsuario = async (req, res) => {
       fechaModificacion = null,
       estaActivo = 1,
       contrasenia,
+      nombres,
+      apellidos,
+      correo,
+      direccion,
+      telefono,
     } = req.body;
     const encrypted = await bcrypt.hash(
       contrasenia,
@@ -56,8 +61,25 @@ export const registrarUsuario = async (req, res) => {
       fechaModificacion,
       estaActivo,
     ]);
+    const [{ idUsuario }] = await queryPromise(
+      'SELECT @@identity AS idUsuario'
+    );
+
+    const insertPersonna = `INSERT INTO Persona (idUsuario,nombres, apellidos, nombreCompleto, correo, direccion, telefono, estaActivo)
+    VALUES(?,?,?,?,?,?,?,?)`;
+    queryPromise(insertPersonna, [
+      idUsuario,
+      nombres,
+      apellidos,
+      `${nombres} ${apellidos}`,
+      correo,
+      direccion,
+      telefono,
+      estaActivo,
+    ]);
+
     res.status(200).json(1);
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).send(0);
   }
 };
