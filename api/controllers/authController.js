@@ -1,10 +1,7 @@
 import jwt from 'jsonwebtoken';
-import mysql from '../database/DB.js';
-import * as util from 'util';
 import bcrypt from 'bcryptjs';
 import config from '../../config.js';
-
-const queryPromise = util.promisify(mysql.query).bind(mysql);
+import queryPromise from '../database/DB.js';
 
 export const iniciarSesion = async (req, res) => {
   try {

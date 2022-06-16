@@ -1,5 +1,6 @@
 import config from '../../config.js';
 import * as mysql from 'mysql';
+import * as util from 'util';
 
 const conexion = mysql.createConnection({
   host: config.DB_HOST,
@@ -13,4 +14,6 @@ conexion.connect((error) => {
   console.log(`!Conectado a la base de Datos ${config.DB_DATABASE}`);
 });
 
-export default conexion;
+const queryPromise = util.promisify(conexion.query).bind(conexion);
+
+export default queryPromise;
