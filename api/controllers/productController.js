@@ -9,7 +9,7 @@ export const agregarProducto = async (payload) => {
     fechaCreacion,
     fechaModificacion,
     descuento,
-    estaActivo,
+    estaActivo = 1,
   } = payload;
   try {
     const insertProduct = `INSERT INTO Producto (nombreProducto, precio, existencia, fechaCreacion,fechaModificacion, descuento, estaActivo)
@@ -96,8 +96,8 @@ export const editarProducto = async (payload) => {
     } = payload;
     await queryPromise(
       `
-    UPDATE Producto 
-    SET 
+    UPDATE Producto
+    SET
 	    nombreProducto=?,
 	    precio=?,
 	    existencia=?,
