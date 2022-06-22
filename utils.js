@@ -17,3 +17,7 @@ export const validateParams = (paramList = [], req) => {
   });
   return [invalid, response];
 };
+
+export const invalidResponse = (invalidParams = []) =>
+  `Error en los parametros ${JSON.stringify(invalidParams)}`;
+

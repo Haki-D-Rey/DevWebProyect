@@ -8,9 +8,9 @@ import {
   agregarProducto,
   editarProducto,
   eliminarProducto,
+  obtenerProductoPorId,
   obtenerProductos,
 } from '../controllers/productController.js';
-import { agregarCategoria } from '../controllers/categoriaController.js';
 import { validateParams } from '../../utils.js';
 
 export const route = Router();
@@ -45,22 +45,7 @@ route.get('/producto/:id', async (req, res) => {
   const payload = {
     idProducto: req.query.id,
   };
-  res.json(await obtenerProductosPorId(payload));
-});
-
-route.post('/categoria', verifyToken, async (req, res) => {
-  const params = [
-    { name: 'nombreCategoria', param: 'body', type: 'string' },
-    { name: 'descripcion', param: 'body', type: 'string' },
-    { name: 'fechaCreacion', param: 'body', type: 'string' },
-  ];
-
-  const [invalid, payload] = validateParams(params, req);
-  if (invalid.length) res.status(500).send(invalidResponse(invalid));
-
-  const [status, error, response] = await agregarCategoria(payload);
-
-  res.status(status).json(error || response);
+  res.json(await obtenerProductoPorId(payload));
 });
 
 route.delete('/producto/:id', verifyToken, async (req, res) => {
@@ -91,6 +76,4 @@ route.put('/producto/:id', verifyToken, async (req, res) => {
 
 const invalidResponse = (invalidParams = []) =>
   `Error en los parametros ${JSON.stringify(invalidParams)}`;
-function obtenerProductosPorId(payload) {
-  throw new Error('Function not implemented.');
-}
+
