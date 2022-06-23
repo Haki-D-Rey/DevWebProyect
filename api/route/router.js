@@ -2,6 +2,7 @@ import { Router } from 'express';
 import verifyToken from '../middleware/token.js';
 import {
   iniciarSesion,
+  olvidoContrasenia,
   registrarUsuario,
 } from '../controllers/authController.js';
 import {
@@ -60,6 +61,15 @@ route.post('/categoria', verifyToken, async (req, res) => {
 
   const [status, error, response] = await agregarCategoria(payload);
 
+  res.status(status).json(error || response);
+});
+
+route.post('/olvidoContrasenia', async (req, res) => {
+  const params = [{ name: 'correo', param: 'body', type: 'string' }];
+  const [invalid, payload] = validateParams(params, req);
+  if (invalid.length) res.status(500).json(invalidResponse(invalid));
+
+  const [status, error, response] = await olvidoContrasenia();
   res.status(status).json(error || response);
 });
 

@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import config from '../../config.js';
+import nodemailer from 'nodemailer';
 import queryPromise from '../database/DB.js';
 
 export const iniciarSesion = async (req, res) => {
@@ -79,4 +80,29 @@ export const registrarUsuario = async (req, res) => {
   } catch (error) {
     res.status(500).send(0);
   }
+};
+
+export const olvidoContrasenia = async (payload) => {
+  const transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+    auth: {
+      user: 'servicellmail01@gmail.com',
+      pass: config.MAIL_PASS,
+    },
+  });
+
+  transporter.verify().then(() => {
+    console.log('Ready to send emails');
+  });
+
+  const mailOptions = {
+    from: 'servicellmail01@gmail.com',
+    to: payload.correo,
+    subject: 'Sending Email using Node.js',
+    text: 'That was easy!',
+  };
+  const response = await transporter.sendMail(mailOptions);
+  return [200, null, response];
 };
