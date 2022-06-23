@@ -54,7 +54,7 @@ route.post('/olvidoContrasenia', async (req, res) => {
   const [invalid, payload] = validateParams(params, req);
   if (invalid.length) res.status(500).json(invalidResponse(invalid));
 
-  const [status, error, response] = await olvidoContrasenia();
+  const [status, error, response] = await olvidoContrasenia(payload);
   res.status(status).json(error || response);
 });
 
@@ -86,4 +86,3 @@ route.put('/producto/:id', verifyToken, async (req, res) => {
 
 const invalidResponse = (invalidParams = []) =>
   `Error en los parametros ${JSON.stringify(invalidParams)}`;
-
