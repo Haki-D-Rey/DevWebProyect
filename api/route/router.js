@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import verifyToken from '../middleware/token.js';
 import {
+  actualizarcontrasenia,
   iniciarSesion,
   olvidoContrasenia,
   registrarUsuario,
@@ -47,6 +48,18 @@ route.get('/producto/:id', async (req, res) => {
     idProducto: req.query.id,
   };
   res.json(await obtenerProductoPorId(payload));
+});
+
+route.put('/usuario/contrasenia', verifyToken, (req, res) => {
+  const params = [{ name: 'correo', param: 'body', type: 'string' }];
+  const [invalid, payload] = validateParams(params,req);
+  payload.token = req.headers.authorization?.substr(7);
+  if(invalid.length) {
+    res.send(invalidResponse(invalid));
+    throw new Error(invalidResponse(invalid));
+  }
+  const [status,error, message ] = await actualizarcontrasenia(payload);
+  res.status(status).json( error || message );
 });
 
 route.post('/olvidoContrasenia', async (req, res) => {

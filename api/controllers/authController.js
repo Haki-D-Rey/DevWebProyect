@@ -78,11 +78,25 @@ export const registrarUsuario = async (req, res) => {
 
     res.status(200).json(1);
   } catch (error) {
-    res.status(500).send(0);
+    res.status(500).json(0);
   }
 };
 
+export const actualizarcontrasenia = async (payload) => {
+  const passwordCrypted = await bcrypt.hash(contrasenia, +config.SALT || 0);
+  const queryUpdateUser = `UPDATE Usuario u INNER JOIN Persona p ON p.idUsuario = u.idUsuario SET u.contrasenia = ? WHERE p.correo = ?`;
+  await queryPromise(queryUpdateUser, [passwordCrypted, payload.token]);
+  return [200, null, 1];
+};
+
 export const olvidoContrasenia = async (payload) => {
+  const queryUser = 'SELECT * FROM Usuario WHERE correo = ? AND estaActivo = 1';
+  const [usuario] = await queryPromise(queryUser, [payload.correo]);
+  const JWT = jwt.sign(usuario, 'sill');
+  const url = `${config.ECOMMERCE_URL}/usuario/password?token=${JWT}`;
+  const insertToken =
+    'UPDATE Usuario u INNER JOIN Persona p ON p.idUsuario = u.idUsuario SET token = ? WHERE p.correo = ? AND estaActivo = 1';
+  await queryPromise(insertToken, [JWT, payload.correo]);
   const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 465,
@@ -100,8 +114,8 @@ export const olvidoContrasenia = async (payload) => {
   const mailOptions = {
     from: 'servicellmail01@gmail.com',
     to: payload.correo,
-    subject: 'Sending Email using Node.js',
-    text: 'That was easy!',
+    subject: 'Recuperacion de cuenta Servicell',
+    text: `Favor entre a este enlace ${url}`,
   };
   const response = await transporter.sendMail(mailOptions);
   return [200, null, response];

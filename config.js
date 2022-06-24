@@ -9,5 +9,6 @@ export default {
   DB_DATABASE: process.env.DB_DATABASE,
   DB_PORT: process.env.DB_PORT,
   MAIL_PASS: process.env.MAIL_PASS,
+  ECOMMERCE_URL: process.env.ECOMMERCE_URL,
   SALT: process.env.SALT,
 };
