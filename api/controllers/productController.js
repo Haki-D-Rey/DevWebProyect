@@ -47,7 +47,7 @@ export const agregarProducto = async (payload) => {
 export const obtenerProductos = async () => {
   try {
     return await queryPromise(
-      'SELECT * FROM Producto p INNER JOIN ProductoCategoria pc ON pc.idProducto = p.idProducto AND estaActivo = 1'
+      'SELECT * FROM Producto p INNER JOIN ProductoCategoria pc ON pc.idProducto = p.idProducto AND p.estaActivo = 1 AND pc.estaActivo = 1'
     );
   } catch (e) {
     console.error(e);

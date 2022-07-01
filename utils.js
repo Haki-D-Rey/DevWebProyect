@@ -10,7 +10,7 @@ export const validateParams = (paramList = [], req) => {
   const invalid = [];
   paramList.forEach((e) => {
     if (typeof req[e.param][e.name] != e.type && !e.optional) {
-      invalid.push(req[e.param][e.name]);
+      invalid.push(e.name);
       return;
     }
     response[e.name] = req[e.param][e.name];
@@ -20,4 +20,3 @@ export const validateParams = (paramList = [], req) => {
 
 export const invalidResponse = (invalidParams = []) =>
   `Error en los parametros ${JSON.stringify(invalidParams)}`;
-

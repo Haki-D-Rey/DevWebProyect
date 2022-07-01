@@ -27,11 +27,11 @@ route.post('/usuario', registrarUsuario);
 route.post('/producto', verifyToken, async (req, res) => {
   const params = [
     { name: 'nombreProducto', param: 'body', type: 'string' },
-    { name: 'idCategoria', param: 'body', type: 'number' },
-    { name: 'precio', param: 'body', type: 'number' },
-    { name: 'existencia', param: 'body', type: 'number' },
+    { name: 'idCategoria', param: 'body', type: 'string' },
+    { name: 'precio', param: 'body', type: 'string' },
+    { name: 'existencia', param: 'body', type: 'string' },
     { name: 'fechaCreacion', param: 'body', type: 'string' },
-    { name: 'descuento', param: 'body', type: 'number' },
+    { name: 'descuento', param: 'body', type: 'string' },
   ];
 
   const [invalid, payload] = validateParams(params, req);
@@ -39,7 +39,7 @@ route.post('/producto', verifyToken, async (req, res) => {
   else res.json(await agregarProducto(payload));
 });
 
-route.get('producto', verifyToken, async (_, res) => {
+route.get('/producto', verifyToken, async (_, res) => {
   res.json(await obtenerProductos());
 });
 
@@ -50,16 +50,16 @@ route.get('/producto/:id', async (req, res) => {
   res.json(await obtenerProductoPorId(payload));
 });
 
-route.put('/usuario/contrasenia', verifyToken, (req, res) => {
+route.put('/usuario/contrasenia', verifyToken, async (req, res) => {
   const params = [{ name: 'correo', param: 'body', type: 'string' }];
-  const [invalid, payload] = validateParams(params,req);
+  const [invalid, payload] = validateParams(params, req);
   payload.token = req.headers.authorization?.substr(7);
-  if(invalid.length) {
+  if (invalid.length) {
     res.send(invalidResponse(invalid));
     throw new Error(invalidResponse(invalid));
   }
-  const [status,error, message ] = await actualizarcontrasenia(payload);
-  res.status(status).json( error || message );
+  const [status, error, message] = await actualizarcontrasenia(payload);
+  res.status(status).json(error || message);
 });
 
 route.post('/olvidoContrasenia', async (req, res) => {
