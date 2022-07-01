@@ -18,7 +18,7 @@ import { validateParams } from '../../utils.js';
 export const route = Router();
 
 route.get('/', (_, res) => {
-  res.render('Api Cargo correctamente');
+  res.json('Api Cargo correctamente');
 });
 
 route.get('/usuario', iniciarSesion);
